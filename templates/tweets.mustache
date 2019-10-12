@@ -1,0 +1,45 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles.css">
+  <script src='/modals.js'></script>
+  <script src="https://kit.fontawesome.com/4c27b24a35.js" crossorigin="anonymous"></script>
+   <!-- needed for modals-->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <title>Twitt</title>
+</head>
+
+<body>
+  <!----NavBar---->
+  <nav class="navContainer">
+    <i class="fas fa-hashtag left"></i>
+      <ul class="right">
+        <li class="logged-out">
+          <a href="#" style='color:#3cedeb;' class="modal-trigger" id="logout">Logout</a>
+        </li>
+        <li class="logged-out">
+          <a href="/index.html" style='color:#3cedeb;' class="modal-trigger">Home</a>
+        </li>
+       </ul>
+  </nav>
+ <div class = 'tweet_container'></div>
+ <div>user name and pic</div>
+  <ul class="list-group">
+    {{#tweets}}
+      <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center">
+        {{tweet}}
+        <span class="badge badge-primary badge-pill">14</span>
+      </li>
+      {{/tweets}}
+      </ul>
+      <div>icons or some shit</div>
+    </div>
+</body>
+
+</html>

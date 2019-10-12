@@ -1,0 +1,24 @@
+[
+    {
+      "tweet": "I'm a silly bitch",
+      "username": "Jackie",
+      "tweet_to": ""
+    
+    },
+    {
+      "tweet": "Damn Jackie!!",
+      "username": "Steve",
+      "tweet_to": "Jackie"
+  
+    },
+    {
+      "tweet": "Please keep things civil",
+      "username": "admin",
+      "tweet_to": "Jackie"
+    },
+    {
+      "tweet": "The rule of law still apllies in the Twitterverse",
+      "username": "admin",
+      "tweet_to": ""
+    }
+]

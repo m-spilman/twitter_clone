@@ -1,0 +1,79 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <script src='modals.js'></script>
+  <script src="https://kit.fontawesome.com/4c27b24a35.js" crossorigin="anonymous"></script>
+   <!-- needed for modals-->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <title>Twitt</title>
+</head>
+
+<body>
+  <!----NavBar---->
+  <nav class="navContainer">
+    <i class="fas fa-hashtag left"></i>
+      <ul class="right">
+        <li class="logged-out">
+          <a href="#" style='color:#3cedeb;' class="modal-trigger" id="logout">Logout</a>
+        </li>
+        <li class="logged-in">
+          <a href="#" style='color:#3cedeb;'class="modal-trigger" data-target="modal-login">Login</a>
+        </li>
+        <li class="sign-up">
+          <a href="#" style='color:#3cedeb;' class="modal-trigger" data-target="modal-signup">Sign up</a>
+        </li>
+      </ul>
+  </nav>
+  <div class = 'image-container'>
+      <img src="twitter.jpeg" class = " twiiter_img img-fluid mx-auto d-block" alt="TWitter">
+  </div>
+  <!----Sign Up Modal---->
+  <div id="modal-signup" class="modal">
+    <div class="modal-content-mine">
+      <h4>Sign up</h4><br />
+      <form id="signup-form">
+        <div class="input-field">
+          <input type="text"required />
+          <label for="">Email address</label>
+        </div>
+        <div class="input-field">
+          <input type="password" id="signup-password" required />
+          <label for="signup-password">Choose password</label>
+        </div>
+        <button class="modal-btn btn">Sign up</button>
+      </form>
+    </div>
+  </div>
+  <!----Sign In---->
+  <div id="modal-login" class="modal">
+    <div class="modal-content-mine">
+      <h4>Login</h4><br />
+      <form action="/" method="post">
+        <div class ="input-field">
+          <input type="text" name="username" required />
+          <label>Username:</label>
+          <br />
+        </div>
+        <div class = 'input-field'>
+          <input type="password" name="password" required />
+          <label>Password:</label>
+        </div>
+        <div>
+          <input type='submit' value='submit' class=" modal-btn btn  "></input>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+ 
+</body>
+
+</html>

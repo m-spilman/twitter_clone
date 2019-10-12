@@ -1,0 +1,72 @@
+span.badge{
+  color:white;
+}
+.fas {
+  color: #3cedeb;
+  font-size: 35px;
+  padding-left: 50px;
+  padding-top: 10px;
+}
+.containMe {
+  padding-right: 15px;
+  padding-left: 15px;
+
+  background-color: black;
+}
+.navContainer {
+  background-color: black;
+  color: #3cedeb;
+  /* color: #26a69a; */
+}
+
+.modal-content-mine{
+  color:#3cedeb;
+}
+.modal-btn {
+  color:#3cedeb;
+  border-color: #3cedeb;
+}
+  .modal-btn:hover {
+    background-color: black;
+}
+  
+.modal {
+  background-color: black;
+}
+/* .modal-content {
+  background-color: black;
+} */
+.twiiter_img{
+  margin: 100px 0px;
+
+}
+input[type=text] {
+  color:white;
+}
+input[type=password] {
+  color:white;
+}
+/* p {
+  font-family: "Indie Flower", cursive;
+  font-size: 20pt;
+} */
+/* .title {
+  font-family: "Indie Flower", cursive;
+  font-size: 75pt;
+} */
+.btn {
+  background-color: black;
+}
+
+
+/* * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+} */
+
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+}
