@@ -28,17 +28,16 @@
         </li>
        </ul>
   </nav>
- <div class = 'tweet_container'></div>
- <div>user name and pic</div>
-  <ul class="list-group">
+ <div class = 'tweet_container'>
+  <ul class="list-group justify-content-center">
     {{#tweets}}
+    <div class = 'tweeter'>{{username}}</div>
       <li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center">
         {{tweet}}
         <span class="badge badge-primary badge-pill">14</span>
-      </li>
+      </li><br><br>
       {{/tweets}}
       </ul>
-      <div>icons or some shit</div>
     </div>
 </body>
 

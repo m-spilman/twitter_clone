@@ -33,9 +33,7 @@ span.badge{
 .modal {
   background-color: black;
 }
-/* .modal-content {
-  background-color: black;
-} */
+
 .twiiter_img{
   margin: 100px 0px;
 
@@ -46,27 +44,20 @@ input[type=text] {
 input[type=password] {
   color:white;
 }
-/* p {
-  font-family: "Indie Flower", cursive;
-  font-size: 20pt;
-} */
-/* .title {
-  font-family: "Indie Flower", cursive;
-  font-size: 75pt;
-} */
+
 .btn {
   background-color: black;
 }
-
-
-/* * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-} */
 
 body {
   width: 100%;
   height: 100vh;
   background-color: black;
+}
+.tweeter{
+  color:white;
+
+}
+.list-group{
+  display:inline-block;
 }

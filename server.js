@@ -73,8 +73,8 @@ app.get('/user/:username', function(req, res){
   // console.log('req.user from get ' , req.user)
 
 getUserTweets(req.params.username).then(function(tweets){
+  // console.log('data is here ' , {tweets})
   res.send(mustache.render(tweetsTemplate, {tweets: tweets}))
-
 })
 }  )
 
