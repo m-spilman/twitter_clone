@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
@@ -12,24 +12,39 @@
   <script src="https://kit.fontawesome.com/4c27b24a35.js" crossorigin="anonymous"></script>
    <!-- needed for modals-->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
   <title>Twitt</title>
 </head>
 
 <body>
   <!----NavBar---->
+
   <nav class="navContainer">
-      <ul class="right">
-        <li>
-          <a href='/logout' style='color:white;' class="modal-trigger">Logout</a>
-        </li>
-        <li>
-          <a href="#" style='color:white;'class="modal-trigger" data-target="modal-login">Login</a>
-        </li>
-        <li>
-          <a href="#" style='color:white;' class="modal-trigger" data-target="modal-signup">Sign up</a>
-        </li>
-      </ul>
+    <div class = 'left'>
+    <form id='search_users'>
+      <input style='color:white;' type='text' placeholder='search vom users'>
+    </form>
+  </div>
+    <ul class="right">
+      <li>
+        <a href='/logout' style='color:white;' class="modal-trigger">Logout</a>
+      </li>
+      <li>
+        <a href="#" style='color:white;' class="modal-trigger" data-target="modal-login">Login</a>
+      </li>
+      <li>
+        <a href="#" style='color:white;' class="modal-trigger" data-target="modal-signup">Sign up</a>
+      </li>
+    </ul>
   </nav>
+  <br>
+  <div id = 'resultsContainer'>
+
+
+  </div>
   <div class = 'image-container'>
       <img src="word_vom.jpg" class = " twiiter_img img-fluid mx-auto d-block" alt="TWitter">
   </div>
@@ -89,7 +104,7 @@
    </div>
 
 
- 
+  
 </body>
 
 </html>

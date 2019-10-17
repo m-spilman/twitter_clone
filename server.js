@@ -91,6 +91,13 @@ app.get("/user/:username/home", loggedIn, function(req, res) {
     });
 });
 
+app.get("/data", function(req,res){
+  searchUsers(req.query.query).then(function(results){
+    res.send(results)
+   })
+})
+
+
 //----------POTS----------------
 app.post(
   "/",
@@ -126,8 +133,18 @@ function getFollowing(user) {
 
 function createTweet(username, tweet, toWhom)
 {
-  
   return db('tweets').insert({tweet: tweet , username: username, tweet_to: toWhom})
+
+}
+
+
+function searchUsers(query)
+{
+firstChar = '%'
+lastChar = '%'
+string =firstChar.concat(query, lastChar)
+
+return db('users').where('username', 'ilike', string ).select('username')
 }
 //PETTY SURE THIS IS WORTHLESS
 // function getTweetsFromFollowing (user){
