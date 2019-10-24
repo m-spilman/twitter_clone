@@ -17,12 +17,11 @@
 
 <body>
 
-  <!----NavBar---->
+  <!----------------NavBar----------------->
   <nav class="navContainer">
       <ul class="right">
         <li>
         <a href="/userHome" style='color:white;' class="modal-trigger">UserHome</a>
-           {{! <button type="button" class="btn btn-dark" onclick="userHome()">UserHome</button> }}
         </li>
       <li>
           <a href="#" style='color:white;' class="modal-trigger"  data-target="modal-tweet"><i class="fas fa-hashtag"></i></a>
@@ -35,36 +34,34 @@
         </li>
        </ul>
   </nav>
- 
+ <!---------------Contnet---------------->
 <div class = 'row'>
-<div class = 'col-3'></div>
-
-<div class="list-group col-6 w-100">
-<br>
- <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-  <button type="button" class="btn btn-dark" onclick="follow(window.location.pathname)">follow</button>
-  <button type="button" class="btn btn-dark" onclick="unfollow(window.location.pathname)">Unfollow</button>
-  </a><br>
- {{#tweets}}
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between col-6">
-      <h5 class="mb-1">@ {{username}}</h5>
-      <small>3 days ago</small>
-    </div>
+  <div class = 'col-3'></div>
+  <div class="list-group col-6 w-100">
+    <br>
+    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <button type="button" class="btn btn-dark" onclick="follow(window.location.pathname)">follow</button>
+    <button type="button" class="btn btn-dark" onclick="unfollow(window.location.pathname)">Unfollow</button>
+    </a><br>
+    {{#tweets}}
+    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+       <div class="d-flex w-100 justify-content-between col-6">
+       <h5 class="mb-1">@ {{username}}</h5>
+       <small>3 days ago</small>
+       </div>
     <p class="mb-1">{{tweet}}</p>
     <small>#{{tweet_to}}</small>
-  </a><br>{{/tweets}}
+    </a><br>{{/tweets}}
   </div>
   <div class = 'col-3'>
-  </div>
 </div>
-<!--window.location.pathname -->
+</div>
+
 
 {{! -----------MODAL FOR CREATING TWEET------------------- }}
  <div id="modal-tweet" class="modal">
     <div class="modal-content-mine">
       <h4>Spew Your Vom</h4><br />
-
       <form id="tweet-form" method = 'post'>
         <div class="input-field">
           <label>Tweet Content</label>
@@ -74,16 +71,11 @@
           <label>To Whom..</label>
           <input type="text" name = 'toWho' />
         </div>
-         {{! <div class = 'input-filed'>
-            <h1>Upload Image</h1>
-           <input type="file" accept="image/*" name="photo" >
-      </div> }}
-          <input type='submit' value='submit' class='modal-btn btn'>
+      <input type='submit' value='submit' class='modal-btn btn'>
       </form>
   </div>
-
+</div>
 
 </body>
-
 </html>
 

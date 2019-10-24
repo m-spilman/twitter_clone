@@ -13,6 +13,7 @@ const userHomeTemplate = fs.readFileSync(
   "./templates/userHome.mustache",
   "utf8"
 );
+// const functions = require('./functions')
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded());
@@ -57,12 +58,7 @@ passport.use(
   })
 );
 
-//--------logout test------------------------------------------------
-app.get("/logout", (req, res) => {
-  req.logout();
-  req.session.success = null;
-  res.redirect("/");
-});
+
 //-------------GETS---------------------------------------------------
 app.get("/", (req, res) => res.sendFile("/index.html", { root: __dirname }));
 
@@ -155,7 +151,6 @@ app.post("/user/:username/home", function(req, res) {
     res.redirect("/user/" + page);
   }
 })
-
 
 app.delete("/unfollow", function(req, res) {
   if(req.user){
@@ -269,6 +264,12 @@ function loggedIn(req, res, next) {
     res.redirect("/");
   }
 }
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  req.session.success = null;
+  res.redirect("/");
+});
 
 async function removeUserFromFollowingList(user, page) {
   var whoFollowingSplit = [];

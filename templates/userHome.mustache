@@ -18,7 +18,7 @@
   <title>Twitt</title>
 </head>
 <body>
-  <!----NavBar---->
+  <!-----------------NavBar---------------->
   <nav class="navContainer">
       <ul class="right">
       <li>
@@ -33,7 +33,7 @@
        </ul>
   </nav>
 
- 
+ <!----------------Contnet-------------------->
  <div class = 'row'>
 <div class = 'col-3'>
  <form id='search_users'>
@@ -43,12 +43,6 @@
   </div>
 <div class="list-group col-6 w-100">
 <br><br><br>
-
-
-
-
-
-
  {{#tweets}}
   <a href= {{location}} class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
@@ -62,9 +56,7 @@
   <div class = 'col-3'></div>
 </div>
 
-
-
-{{! -----------MODAL FOR CREATING TWEET------------------- }}
+<!-----------MODAL FOR CREATING TWEET------------------->
 
  <div id="modal-tweet" class="modal">
     <div class="modal-content-mine">
