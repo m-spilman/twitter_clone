@@ -158,19 +158,25 @@ app.post("/user/:username/home", function(req, res) {
 
 
 app.delete("/unfollow", function(req, res) {
+  if(req.user){
   currentUser = req.user.username;
   pageUserIsOn = req.body.page.substr(6);
   removeUserFromFollowingList(currentUser, pageUserIsOn).then(function() {
     res.redirect(303, "/user/" + currentUser);
-  });
+  })
+}
+else{res.redirect(req.body.page)}
 });
 
 app.post("/follow/", function(req, res) {
+  if(req.user){
   currentUser = req.user.username;
   pageUserIsOn = req.body.page.substr(6);
   updateFollowingAdd(currentUser, pageUserIsOn).then(function() {
     res.redirect("/user/" + currentUser + "/home");
-  });
+  })
+}
+else{res.redirect(req.body.page)}
 });
 //-------------SQL------------------------------------------------------------
 function addUser(username, password) {
