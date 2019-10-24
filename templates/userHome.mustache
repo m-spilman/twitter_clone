@@ -12,9 +12,11 @@
   <script src="https://kit.fontawesome.com/4c27b24a35.js" crossorigin="anonymous"></script>
    <!-- needed for modals-->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   <title>Twitt</title>
 </head>
-
 <body>
   <!----NavBar---->
   <nav class="navContainer">
@@ -30,14 +32,27 @@
         </li>
        </ul>
   </nav>
+
  
-<div class = 'row'>
-<div class = 'col-3'></div>
+ <div class = 'row'>
+<div class = 'col-3'>
+ <form id='search_users'>
+    <input style='color:black;' type='text' placeholder='search users'>
+  </form>
+  <div class = 'collection list-group-flush' id ='resultsContainer'></div>
+  </div>
 <div class="list-group col-6 w-100">
+<br><br><br>
+
+
+
+
+
+
  {{#tweets}}
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+  <a href= {{location}} class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">@ {{username}}</h5>
+      <h5 class="mb-1">@ {{username}}</h5> 
       <small>3 days ago</small>
     </div>
     <p class="mb-1">{{tweet}}</p>
@@ -46,6 +61,9 @@
   </div>
   <div class = 'col-3'></div>
 </div>
+
+
+
 {{! -----------MODAL FOR CREATING TWEET------------------- }}
 
  <div id="modal-tweet" class="modal">
@@ -65,6 +83,5 @@
       </form>
   </div>
 </body>
-
 </html>
 

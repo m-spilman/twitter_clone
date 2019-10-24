@@ -69,3 +69,11 @@ body {
   height: 100%; 
   object-fit: contain;
 }
+.collection {
+  border: none;
+  
+
+}
+.collection a.collection-item{
+  color:black;
+}

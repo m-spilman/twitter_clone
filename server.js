@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const sessions = require("express-session");
 const app = express();
 const port = 1313;
@@ -21,8 +22,7 @@ app.listen(port, function() {
   console.log("Listening on port " + port + " 👍");
 });
 
-//------PASSPORT SETUP-----------------
-
+//------PASSPORT SETUP----------------------------------------------------
 const passport = require("passport");
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,10 +36,8 @@ passport.deserializeUser(function(username, cb) {
 });
 
 const LocalStrategy = require("passport-local").Strategy;
-
 passport.use(
   new LocalStrategy((username, password, done) => {
-    // check to see if the username exists
     db("users")
       .where({ username })
       .first()
@@ -59,14 +57,15 @@ passport.use(
   })
 );
 
-//--------logout test-------------
-app.get('/logout', (req, res) => {
+//--------logout test------------------------------------------------
+app.get("/logout", (req, res) => {
   req.logout();
-  req.session.success = null
-  res.redirect('/');
+  req.session.success = null;
+  res.redirect("/");
 });
-//-------------GETS----------------
+//-------------GETS---------------------------------------------------
 app.get("/", (req, res) => res.sendFile("/index.html", { root: __dirname }));
+
 app.get("/error", (req, res) => res.send("error logging in"));
 
 app.get("/user/:username", function(req, res) {
@@ -81,6 +80,7 @@ app.get("/user/:username/home", loggedIn, function(req, res) {
     .then(function() {
       for (let i = 0; i < usersTweets.length; i++) {
         usersTweets[i].map(function(objects) {
+          objects.location = "/user/" + objects.username;
           tweetsObject.push(objects);
         });
       }
@@ -90,15 +90,23 @@ app.get("/user/:username/home", loggedIn, function(req, res) {
       usersTweets = [];
     });
 });
+app.get("/data", function(req, res) {
+  searchUsers(req.query.query).then(function(results) {
+    res.send(results);
+  });
+});
 
-app.get("/data", function(req,res){
-  searchUsers(req.query.query).then(function(results){
-    res.send(results)
-   })
+app.get('/userHome', function(req,res){
+  if (req.user) {
+  username = req.user.username
+  res.redirect('/user/'+username+'/home')  
+  }
+  else {
+    return res.redirect('/')}
+
 })
 
-
-//----------POTS----------------
+//----------POTS--------------------------------------------------------
 app.post(
   "/",
   passport.authenticate("local", { failureRedirect: "/error" }),
@@ -106,20 +114,69 @@ app.post(
     res.redirect("/user/" + req.user.username + "/home");
   }
 );
-app.post("/user/:username", function(req, res){
-  console.log ('tweet ' + req.body.tweet)
-  let username = req.params.username
-  let tweet = req.body.tweet
-  let toWhom = req.body.toWho
- 
-  createTweet(username, tweet, toWhom).then(function(){
-    res.redirect('/user/' + username)
-  })
-  
+
+app.post("/login", function(username, res, req) {
+  newUser = username.body.username;
+  newPassword = username.body.password;
+  db("users")
+    .where("username", newUser)
+    .then(function(user) {
+      if (user.length === 0) {
+        addUser(newUser, newPassword).then(function() {
+          res.redirect("/user/admin");
+        });
+      }
+    });
+});
+
+app.post("/user/:username", function(req, res) {
+  let page = req.params.username;
+  if (req.user) {
+    let username = req.user.username;
+    let tweet = req.body.tweet;
+    let toWhom = req.body.toWho;
+    createTweet(username, tweet, toWhom).then(function() {
+      res.redirect("/user/" + username);
+    });
+  } else {
+    res.redirect("/user/" + page);
+  }
+})
+app.post("/user/:username/home", function(req, res) {
+  let page = req.params.username;
+  if (req.user) {
+    let username = req.user.username;
+    let tweet = req.body.tweet;
+    let toWhom = req.body.toWho;
+    createTweet(username, tweet, toWhom).then(function() {
+      res.redirect("/user/" + username);
+    });
+  } else {
+    res.redirect("/user/" + page);
+  }
 })
 
 
-//-------------SQL----------------
+app.delete("/unfollow", function(req, res) {
+  currentUser = req.user.username;
+  pageUserIsOn = req.body.page.substr(6);
+  removeUserFromFollowingList(currentUser, pageUserIsOn).then(function() {
+    res.redirect(303, "/user/" + currentUser);
+  });
+});
+
+app.post("/follow/", function(req, res) {
+  currentUser = req.user.username;
+  pageUserIsOn = req.body.page.substr(6);
+  updateFollowingAdd(currentUser, pageUserIsOn).then(function() {
+    res.redirect("/user/" + currentUser + "/home");
+  });
+});
+//-------------SQL------------------------------------------------------------
+function addUser(username, password) {
+  return db("users").insert({ username: username, password: password });
+}
+
 async function getUserTweets(username) {
   return db("tweets").where("username", username);
 }
@@ -131,21 +188,48 @@ function getFollowing(user) {
     .where("username", user);
 }
 
-function createTweet(username, tweet, toWhom)
-{
-  return db('tweets').insert({tweet: tweet , username: username, tweet_to: toWhom})
+function createTweet(username, tweet, toWhom) {
+  return db("tweets").insert({
+    tweet: tweet,
+    username: username,
+    tweet_to: toWhom
+  });
+}
+function searchUsers(query) {
+  firstChar = "%";
+  lastChar = "%";
+  string = firstChar.concat(query, lastChar);
 
+  return db("users")
+    .where("username", "ilike", string)
+    .select("username");
 }
 
-
-function searchUsers(query)
-{
-firstChar = '%'
-lastChar = '%'
-string =firstChar.concat(query, lastChar)
-
-return db('users').where('username', 'ilike', string ).select('username')
+async function updateFollowingAdd(user, following) {
+  var whoFollowingSplit = [];
+  let followingList = await getFollowing(user);
+  if (followingList[0].following !== null) {
+    whoFollowingSplit = followingList[0].following.split(",");
+    var found = whoFollowingSplit.indexOf(following);
+    if (found !== -1) {
+      return;
+    }
+    let followingCSV = followingList[0].following.concat("," + following);
+    return db("users")
+      .where({ username: user })
+      .update({ following: followingCSV });
+  } else {
+    return db("users")
+      .where({ username: user })
+      .update({ following: following });
+  }
 }
+async function updateFollowingRemove(user, following) {
+  return db("users")
+    .where({ username: user })
+    .update({ following: following });
+}
+
 //PETTY SURE THIS IS WORTHLESS
 // function getTweetsFromFollowing (user){
 //   return db.column('tweet').from('tweets').innerJoin('users', 'tweets.username', '=', 'users.username').where('tweets.username',(db.select('following').from('users').where('username', user)))
@@ -158,18 +242,39 @@ var tweets = [];
 var usersTweets = [];
 async function getTweetsFromPeepsIFollow(user) {
   let following = await getFollowing(user);
+  if (following[0].following === null) {
+    return;
+  }
   whoFollowingSplit = following[0].following.split(",");
   for (let i = 0; i < whoFollowingSplit.length; i++) {
     tweets = await getUserTweets(whoFollowingSplit[i]);
     usersTweets.push(tweets);
-   
   }
 }
 
 function loggedIn(req, res, next) {
   if (req.user) {
+    if (req.user.username === req.params.username) {
       next();
+    } else {
+      res.redirect("/");
+    }
   } else {
-      res.redirect('/');
+    res.redirect("/");
   }
+}
+
+async function removeUserFromFollowingList(user, page) {
+  var whoFollowingSplit = [];
+  let following = await getFollowing(user);
+  whoFollowingSplit = following[0].following.split(",");
+  var found = whoFollowingSplit.indexOf(page);
+  if (found === -1) {
+    return;
+  }
+  whoFollowingSplit.splice(found, 1);
+  putback = whoFollowingSplit.join(",");
+  updateFollowingRemove(user, putback).then(function() {
+    return;
+  });
 }

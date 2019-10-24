@@ -1,5 +1,4 @@
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,16 +11,19 @@
   <script src="https://kit.fontawesome.com/4c27b24a35.js" crossorigin="anonymous"></script>
    <!-- needed for modals-->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <title>Twitt</title>
 </head>
 
 <body>
 
-
-
   <!----NavBar---->
   <nav class="navContainer">
       <ul class="right">
+        <li>
+        <a href="/userHome" style='color:white;' class="modal-trigger">UserHome</a>
+           {{! <button type="button" class="btn btn-dark" onclick="userHome()">UserHome</button> }}
+        </li>
       <li>
           <a href="#" style='color:white;' class="modal-trigger"  data-target="modal-tweet"><i class="fas fa-hashtag"></i></a>
         </li>
@@ -32,18 +34,17 @@
           <a href="/index.html" style='color:white;' class="modal-trigger">Home</a>
         </li>
        </ul>
-       
-       
   </nav>
  
 <div class = 'row'>
-<div class = 'col-3'>
-<div class = 'row-4'><img src = "/follow-me.png" alt = 'follow me' class ='follow'></div>
-<div class = 'row-4'></div>
-<div class = 'row-4'></div>
-</div>
+<div class = 'col-3'></div>
 
 <div class="list-group col-6 w-100">
+<br>
+ <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+  <button type="button" class="btn btn-dark" onclick="follow(window.location.pathname)">follow</button>
+  <button type="button" class="btn btn-dark" onclick="unfollow(window.location.pathname)">Unfollow</button>
+  </a><br>
  {{#tweets}}
   <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between col-6">
@@ -55,9 +56,9 @@
   </a><br>{{/tweets}}
   </div>
   <div class = 'col-3'>
-  <img src = "/unfollow-me.png" alt = 'follow me' class = 'follow'>
   </div>
 </div>
+<!--window.location.pathname -->
 
 {{! -----------MODAL FOR CREATING TWEET------------------- }}
  <div id="modal-tweet" class="modal">

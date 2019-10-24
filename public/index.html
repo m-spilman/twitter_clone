@@ -24,9 +24,9 @@
 
   <nav class="navContainer">
     <div class = 'left'>
-    <form id='search_users'>
+    <!-- <form id='search_users'>
       <input style='color:white;' type='text' placeholder='search vom users'>
-    </form>
+    </form> -->
   </div>
     <ul class="right">
       <li>
@@ -41,15 +41,24 @@
     </ul>
   </nav>
   <br>
-  <div id = 'resultsContainer'>
-
-
-  </div>
-  <div class = 'image-container'>
+  <div class = 'row'>
+  <form id='search_users' class = 'col-4'>
+    <input style='color:black;' type='text' placeholder='search users'>
+  </form>
+    <!-- <div class = 'image-container col-6'>
       <img src="word_vom.jpg" class = " twiiter_img img-fluid mx-auto d-block" alt="TWitter">
+  </div>  -->
+</div>
+  <div class = 'homeContentContainer row'>
+  <div class = 'col-4 collection list-group-flush' id ='resultsContainer'></div>
+  <!-- <div class = 'image-container col-6'>
+      <img src="word_vom.jpg" class = " twiiter_img img-fluid mx-auto d-block" alt="TWitter">
+  </div> -->
   </div>
+
+
   <!----Sign Up Modal---->
-  <div id="modal-signup" class="modal">
+  <!-- <div id="modal-signup" class="modal">
     <div class="modal-content-mine">
       <h4>Sign up</h4><br />
       <form id="signup-form">
@@ -64,7 +73,30 @@
         <button class="modal-btn btn">Sign up</button>
       </form>
     </div>
+  </div> -->
+<!-----------------------real sign up please stand up--------------------------------------------->
+<div id="modal-signup" class="modal">
+    <div class="modal-content-mine">
+      <h4>Sign up</h4><br />
+      <form action="/login" method="post">
+        <div class ="input-field">
+          <input type="text" name="username" required />
+          <label>Username:</label>
+          <br />
+        </div>
+        <div class = 'input-field'>
+          <input type="password" name="password" required />
+          <label>Password:</label>
+        </div>
+        <div>
+          <input type='submit' value='submit' class=" modal-btn btn  "></input>
+        </div>
+      </form>
+    </div>
   </div>
+
+<!-------------------------------------------------------------------------------------------------->
+
   <!----Sign In---->
   <div id="modal-login" class="modal">
     <div class="modal-content-mine">
@@ -89,7 +121,6 @@
   <div id="modal-tweet" class="modal">
      <div class="modal-content-mine">
        <h4>Spew Your Vom</h4><br />
- 
        <form id="tweet-form" method = 'post'>
          <div class="input-field">
            <label>Tweet Content</label>
@@ -102,9 +133,5 @@
            <input type='submit' value='submit' class='modal-btn btn'>
        </form>
    </div>
-
-
-  
 </body>
-
 </html>

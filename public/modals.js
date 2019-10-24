@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener("DOMContentLoaded", function() {
   const searchBar = document.forms["search_users"].querySelector("input");
   searchBar.addEventListener("keyup", function(e) {
-    const term = e.target.value;
+    let term = e.target.value;
     if(term === '')
     {return}
     else {
@@ -21,11 +21,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function extractInfo(theInfo) {
       vomUsers = theInfo.map(function(usernames) {
-        return `<li>${usernames.username}</li>`;
+        return `<a href=/user/${usernames.username} class = 'collection-item'>${usernames.username}</a>`
       });
-      document.getElementById('resultsContainer').innerHTML = '<ul>' + vomUsers.join('') + '</ul>'
+      document.getElementById('resultsContainer').innerHTML = vomUsers.join('')
     }
+   }
+  })
+})
+function unfollow(page){
+  $.ajax({
+  url: '/unfollow',
+  type: 'delete',
+  data: {
+    page: page
   }
-  });
-});
+
+})}
+
+function follow(page){
+  $.ajax({
+  url: '/follow',
+  type: 'post',
+  data: {
+    page: page
+  }
+
+})}
 
