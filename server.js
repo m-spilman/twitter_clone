@@ -13,7 +13,11 @@ const userHomeTemplate = fs.readFileSync(
   "./templates/userHome.mustache",
   "utf8"
 );
+const bcrypt = require ('bcrypt')
+const salty = 10
+
 // const functions = require('./functions')
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded());
@@ -45,18 +49,30 @@ passport.use(
 
       .then(user => {
         if (!user) return done(null, false);
-        if (user.password != password) {
-          return done(null, false);
-        } else {
-          return done(null, user);
-        }
-      })
+        hashed = user.password
+        checkPassword(password, hashed).then(function(result){
+          if (result) {
+            return done(null, user);
+          } else {
+            return done(null, false);
+          }
+        })
+        .catch(err => {
+          return done(err);
+        });
 
-      .catch(err => {
-        return done(err);
-      });
+        })
+         
+    
+       
+       
+       
+
+   
   })
 );
+
+
 
 
 //-------------GETS---------------------------------------------------
@@ -102,7 +118,7 @@ app.get('/userHome', function(req,res){
 
 })
 
-//----------POTS--------------------------------------------------------
+//----------POSTS--------------------------------------------------------
 app.post(
   "/",
   passport.authenticate("local", { failureRedirect: "/error" }),
@@ -119,11 +135,12 @@ app.post("/login", function(username, res, req) {
     .then(function(user) {
       if (user.length === 0) {
         addUser(newUser, newPassword).then(function() {
-          res.redirect("/user/admin");
+          res.redirect("/");
         });
       }
     });
 });
+
 
 app.post("/user/:username", function(req, res) {
   let page = req.params.username;
@@ -174,8 +191,11 @@ app.post("/follow/", function(req, res) {
 else{res.redirect(req.body.page)}
 });
 //-------------SQL------------------------------------------------------------
-function addUser(username, password) {
-  return db("users").insert({ username: username, password: password });
+
+
+async function addUser(username, password){
+  var hash = await bcrypt.hash(password, salty)
+  return db("users").insert({ username: username, password: hash })
 }
 
 async function getUserTweets(username) {
@@ -263,6 +283,10 @@ function loggedIn(req, res, next) {
   } else {
     res.redirect("/");
   }
+}
+async function checkPassword(password, hashed){
+  return result = await bcrypt.compare(password, hashed)
+  
 }
 
 app.get("/logout", (req, res) => {
