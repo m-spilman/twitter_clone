@@ -13,8 +13,6 @@ const homepageTemplate = fs.readFileSync("./templates/homepage.mustache", "utf8"
 const bcrypt = require ('bcrypt')
 const salty = 10
 const flash = require('express-flash-messages');
-// const expressValidator = require('express-validator')
-
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -72,6 +70,9 @@ app.get('/', function (req, res){
 })
 app.get("/user/:username", function(req, res) {
   getUserTweets(req.params.username).then(function(tweets) {
+    console.log('tweets', tweets)
+
+
     res.send(mustache.render(tweetsTemplate, { tweets: tweets }));
   });
 });
@@ -230,7 +231,7 @@ async function addUser(username, password){
 }
 
 async function getUserTweets(username) {
-  return db("tweets").where("username", username);
+  return db("tweets").where("username", username).orderBy('ts')
 }
 
 function getFollowing(user) {
@@ -243,7 +244,7 @@ function getFollowing(user) {
 function createTweet(username, tweet, toWhom) {
  var currentDate = new Date()
  var date = currentDate.getDate();
- var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+ var month = currentDate.getMonth();
  var year = currentDate.getFullYear();
  var hour = currentDate.getHours();
  var minutes = currentDate.getMinutes();
