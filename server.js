@@ -1,5 +1,4 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const sessions = require("express-session");
 const app = express();
 const port = 1313;
@@ -9,20 +8,24 @@ const fs = require("fs");
 const mustache = require("mustache");
 const bodyParser = require("body-parser");
 const tweetsTemplate = fs.readFileSync("./templates/tweets.mustache", "utf8");
-const userHomeTemplate = fs.readFileSync(
-  "./templates/userHome.mustache",
-  "utf8"
-);
+const userHomeTemplate = fs.readFileSync( "./templates/userHome.mustache","utf8");
+const homepageTemplate = fs.readFileSync("./templates/homepage.mustache", "utf8");
 const bcrypt = require ('bcrypt')
 const salty = 10
+const flash = require('express-flash-messages');
+// const expressValidator = require('express-validator')
 
-// const functions = require('./functions')
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded());
-app.use(sessions({ secret: "0lTedZkHF6bFazUOldM" }));
-
+app.use(sessions({ 
+  secret: "0lTedZkHF6bFazUOldM",
+  resave: false,
+  saveUninitialized:true
+}));
+app.use(flash())
 app.listen(port, function() {
   console.log("Listening on port " + port + " 👍");
 });
@@ -60,26 +63,13 @@ passport.use(
         .catch(err => {
           return done(err);
         });
-
         })
-         
-    
-       
-       
-       
-
-   
   })
 );
-
-
-
-
 //-------------GETS---------------------------------------------------
-app.get("/", (req, res) => res.sendFile("/index.html", { root: __dirname }));
-
-app.get("/error", (req, res) => res.send("error logging in"));
-
+app.get('/', function (req, res){
+  res.send(mustache.render(homepageTemplate, { bob: tweets }));
+})
 app.get("/user/:username", function(req, res) {
   getUserTweets(req.params.username).then(function(tweets) {
     res.send(mustache.render(tweetsTemplate, { tweets: tweets }));
@@ -88,6 +78,7 @@ app.get("/user/:username", function(req, res) {
 
 app.get("/user/:username/home", loggedIn, function(req, res) {
   var tweetsObject = [];
+  var check = 1
   getTweetsFromPeepsIFollow(req.params.username)
     .then(function() {
       for (let i = 0; i < usersTweets.length; i++) {
@@ -96,7 +87,22 @@ app.get("/user/:username/home", loggedIn, function(req, res) {
           tweetsObject.push(objects);
         });
       }
-      res.send(mustache.render(userHomeTemplate, { tweets: tweetsObject }));
+      if(tweetsObject.length === 0){
+        noFollowers = { tweet_id: '404',
+                       tweet: 'Follow others to see their tweets, click here to see the admins page and add to following ',
+                       username: 'admin',
+                       tweet_to: req.params.username,
+                       location: '/user/admin'
+                }
+        tweetsObject.push(noFollowers)
+        check = 2
+        res.send(mustache.render(userHomeTemplate, { tweets: tweetsObject}));
+      }
+       if(check ===1){
+        res.send(mustache.render(userHomeTemplate, { tweets: tweetsObject}));
+       }
+      
+      
     })
     .then(function() {
       usersTweets = [];
@@ -115,14 +121,31 @@ app.get('/userHome', function(req,res){
   }
   else {
     return res.redirect('/')}
-
 })
+
+app.get('/usertweets', function(req,res){
+  if (req.user) {
+  username = req.user.username
+  res.redirect('/user/'+username)  
+  }
+  else {
+    return res.redirect('/')}
+})
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  req.session.success = null;
+  res.redirect("/");
+});
 
 //----------POSTS--------------------------------------------------------
 app.post(
   "/",
-  passport.authenticate("local", { failureRedirect: "/error" }),
-  function(req, res) {
+  passport.authenticate("local", { 
+  failureRedirect: "/" ,
+  failureFlash : true,
+}),
+  function(req, res, err) {
     res.redirect("/user/" + req.user.username + "/home");
   }
 );
@@ -135,11 +158,18 @@ app.post("/login", function(username, res, req) {
     .then(function(user) {
       if (user.length === 0) {
         addUser(newUser, newPassword).then(function() {
-          res.redirect("/");
-        });
+          Message = {message: 'user successfully created, please login'}
+          res.send(mustache.render(homepageTemplate, {message:Message.message}));
+        })
       }
-    });
-});
+      if(user.length !==0)
+      {
+        Message = {message: 'username already exists'}
+        res.send(mustache.render(homepageTemplate, {message:Message.message}));
+      }
+       })
+      })
+
 
 
 app.post("/user/:username", function(req, res) {
@@ -162,6 +192,7 @@ app.post("/user/:username/home", function(req, res) {
     let tweet = req.body.tweet;
     let toWhom = req.body.toWho;
     createTweet(username, tweet, toWhom).then(function() {
+      
       res.redirect("/user/" + username);
     });
   } else {
@@ -210,10 +241,19 @@ function getFollowing(user) {
 }
 
 function createTweet(username, tweet, toWhom) {
+ var currentDate = new Date()
+ var date = currentDate.getDate();
+ var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+ var year = currentDate.getFullYear();
+ var hour = currentDate.getHours();
+ var minutes = currentDate.getMinutes();
+var dateString = date + "-" +(month + 1) + "-" + year+ "-" +hour+ "-" +minutes;
+  console.log(dateString)
   return db("tweets").insert({
     tweet: tweet,
     username: username,
-    tweet_to: toWhom
+    tweet_to: toWhom,
+    ts: dateString
   });
 }
 function searchUsers(query) {
@@ -251,11 +291,6 @@ async function updateFollowingRemove(user, following) {
     .update({ following: following });
 }
 
-//PETTY SURE THIS IS WORTHLESS
-// function getTweetsFromFollowing (user){
-//   return db.column('tweet').from('tweets').innerJoin('users', 'tweets.username', '=', 'users.username').where('tweets.username',(db.select('following').from('users').where('username', user)))
-// }
-
 //-----------FUNCTIONS------------------
 
 var whoFollowingSplit = [];
@@ -288,12 +323,6 @@ async function checkPassword(password, hashed){
   return result = await bcrypt.compare(password, hashed)
   
 }
-
-app.get("/logout", (req, res) => {
-  req.logout();
-  req.session.success = null;
-  res.redirect("/");
-});
 
 async function removeUserFromFollowingList(user, page) {
   var whoFollowingSplit = [];

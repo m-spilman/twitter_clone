@@ -1,5 +1,5 @@
-const dbConfigs = require("./knexfile.js");
-const db = require("knex")(dbConfigs.development);
+// const dbConfigs = require("./knexfile.js");
+// const db = require("knex")(dbConfigs.development);
 
 function loggedIn(req, res, next) {
     if (req.user) {
