@@ -309,6 +309,7 @@ async function getTweetsFromPeepsIFollow(user) {
   }
 }
 
+
 function loggedIn(req, res, next) {
   if (req.user) {
     if (req.user.username === req.params.username) {

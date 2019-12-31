@@ -25,6 +25,9 @@
   "scripts": {
     "start": "nodemon server.js"
   },
+  "engines": {
+    "node": "12.4.0"
+  },
   "author": "matt spilman",
   "license": "MIT"
 }
