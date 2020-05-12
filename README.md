@@ -1,4 +1,7 @@
 # Tweeter - Twitter clone
+
+https://calm-earth-94528.herokuapp.com/
+
 This is a twitter clone. Users can create a username, then tweet their thoughts to the world. There is no character cap. This program only completes the basic functions you would expect. Everything is 100% backend.
 # Core
 Node, Express, Boostrap, PostgresSQL, mustache (templates), bcrypt (password hashing)
