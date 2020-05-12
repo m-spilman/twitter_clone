@@ -10,9 +10,9 @@ This is a twitter clone. Users can create a username, then tweet their thoughts 
 
 ---------------------------------------------------------
 
-<img src="read_me_images/tweets.png" width="600">
-
 # Admin Tweet Page
+
+<img src="read_me_images/tweets.png" width="600">
 
 ---------------------------------------------------------
 
