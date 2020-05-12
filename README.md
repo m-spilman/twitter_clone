@@ -65,7 +65,7 @@ as I wanted to demonstrate the function.
 You can read about trigrams here - https://www.postgresql.org/docs/9.6/pgtrgm.html
 
 # Known issues
-There is a timestamp, I believe it's correct but a little hard to understand: day-month-year-hour-minute. Please note this is in heroku, I do not know where the server is located. The odds of the time matching your local time are small. The tweets are ordered from oldest to newest. This is an obvious oversight. The timestamps were added at the last minute.. we all know how that can go. Although you can add who you are tweeting to, this has 0 affect. It does show who you tweeted to but you cannot view who has tweeted to you, search order or anything of the like.
+There is a timestamp, I believe it's correct but a little hard to understand: day-month-year-hour-minute. Please note this is in heroku, I do not know where the server is located. The odds of the time matching your local time are small. The tweets are ordered from oldest to newest. This is an obvious oversight. The timestamps were added at the last minute.. we all know how that can go. Although you can add who you are tweeting to, this has 0 affect. It does show who you tweeted to, but you cannot view who has tweeted to you, search, order, or anything of the like.
 
 
 
