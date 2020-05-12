@@ -22,7 +22,7 @@ This is a twitter clone. Users can create a username, then tweet their thoughts 
 
 
 # Core
-Node, Express, Boostrap, PostgresSQL, mustache (templates), bcrypt (password hashing)
+Node, Express, Boostrap, PostgresSQL, Mustache (templates), Bcrypt (password hashing)
 
 # Development
 Nothing too special here. This was a backend project using Bootsrap for styling and Node / Express for the backend. All data is stored in a PostgresSQL database, all passwords are hashed.
